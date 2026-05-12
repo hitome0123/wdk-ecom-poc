@@ -21,6 +21,8 @@ payments using only:
 ## Run locally
 
 ```bash
+git clone https://github.com/hitome0123/wdk-ecom-poc.git
+cd wdk-ecom-poc
 pnpm install        # or npm install
 cp .env.local.example .env.local
 # edit NEXT_PUBLIC_MERCHANT_ADDRESS to a Sepolia address you control,
