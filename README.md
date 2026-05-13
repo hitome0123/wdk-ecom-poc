@@ -32,8 +32,35 @@ pnpm dev
 
 Open <http://localhost:3000>, pick a product, generate a wallet, fund it
 with Sepolia ETH + Sepolia USDT (faucets:
-[Pimlico](https://dashboard.pimlico.io/test-erc20-faucet) /
-[Candide](https://dashboard.candide.dev/faucet)), then pay.
+[Google Cloud Web3](https://cloud.google.com/application/web3/faucet/ethereum/sepolia)
+for ETH, [pk910 PoW](https://sepolia-faucet.pk910.de/) as a backup), then pay.
+
+USDT is the trickier side — public USDT faucets on Sepolia are rare. The
+repo ships a one-shot helper that calls the Aave V3 permissionless
+faucet contract directly from the buyer wallet, so reviewers don't have
+to connect a separate wallet just to top up:
+
+```bash
+BUYER_SEED="twelve words from /api/wallet/new" \
+  node scripts/mint-usdt.mjs
+# → 100 test USDT minted to the same address WDK derives
+```
+
+### Live demo evidence (Sepolia)
+
+End-to-end smoke run captured against the local server on this snapshot:
+
+| Field        | Value |
+| ------------ | ----- |
+| Buyer        | `0x9D14899c140aa5f1DEB09F37066D96263107727a` |
+| Merchant     | `0x4077106d13f03054915ae146033fC4aFd354D5Ad` |
+| Amount       | 12.50 USDT |
+| WDK tx hash  | [`0x8d1b625e9adaa51ba5156916dc1082e05f2d8c9e6831f1a6d1a32644ba4d3ee5`](https://sepolia.etherscan.io/tx/0x8d1b625e9adaa51ba5156916dc1082e05f2d8c9e6831f1a6d1a32644ba4d3ee5) |
+| Result       | Status `0x1` (success) at block 10842334 — buyer 100 → 87.50 USDT, merchant 0 → 12.50 USDT |
+
+The transfer was signed by WDK (`account.transfer({ token, recipient, amount })`)
+and broadcast through the configured RPC. Anyone can verify the value
+flow on Etherscan with the link above.
 
 ## Architecture
 
