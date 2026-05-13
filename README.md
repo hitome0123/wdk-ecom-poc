@@ -120,6 +120,14 @@ merchant server never sees keys. The `/api/wallet/new` and `/api/pay`
 endpoints are scoped so this migration is a one-file change — the
 Indexer/SSE layer is already key-free and stays as-is.
 
+## SDK extraction design
+
+The M2 deliverable extracts the payment surface into a standalone
+package (`@wdk-commerce/core`) that the Shopify app, WooCommerce
+plugin, and any custom drop-in all consume. See
+[`packages/core/README.md`](packages/core/README.md) for the target
+file layout, public API, migration plan, and open questions.
+
 ## Roadmap (mapped to bounty milestones)
 
 - **M1 — Proposal & Platform Selection (20%)** — this README, architecture
