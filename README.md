@@ -62,6 +62,29 @@ The transfer was signed by WDK (`account.transfer({ token, recipient, amount })`
 and broadcast through the configured RPC. Anyone can verify the value
 flow on Etherscan with the link above.
 
+### Visual walkthrough
+
+Captured headlessly via `scripts/capture-walkthrough.mjs` (Playwright +
+the merchant's own Chrome) against the same Sepolia tx as above. The
+script intercepts `/api/wallet/new` so the funded buyer wallet is reused
+— that way the receipt panel shows a real on-chain success instead of a
+fresh empty wallet.
+
+| Step | Screenshot |
+| ---- | ---------- |
+| 1. Storefront | ![storefront](docs/walkthrough/01-storefront.png) |
+| 2. Checkout intro | ![checkout intro](docs/walkthrough/02-checkout-intro.png) |
+| 3. Wallet generated | ![wallet ready](docs/walkthrough/03-wallet-ready.png) |
+| 4. Receipt (on-chain success) | ![receipt](docs/walkthrough/04-receipt.png) |
+
+To regenerate locally:
+
+```bash
+BUYER_SEED="twelve words ..." \
+BUYER_TX=0x8d1b625e9adaa51ba5156916dc1082e05f2d8c9e6831f1a6d1a32644ba4d3ee5 \
+  node scripts/capture-walkthrough.mjs
+```
+
 ## Architecture
 
 ```
